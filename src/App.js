@@ -102,7 +102,8 @@ class App extends React.Component {
       });
   }
 
-  // Reset prevent default form submission and call getBookList()
+  // Prevent default form submission and call getBookList()
+  // to initiate fetch call with updated state data
   handleSubmit(e) {
     e.preventDefault();
     this.getBookList();
