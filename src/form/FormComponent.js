@@ -31,7 +31,7 @@ function FormComponent(props) {
         value={props.bookType}
         onChange={props.handleChange} 
       >
-        <option value="no-filter">No Filter</option>
+        <option value="none">No Filter</option>
         <option value="partial">Partial</option>
         <option value="full">Full</option>
         <option value="free-ebooks">Free-ebooks</option>

@@ -9,30 +9,93 @@ class App extends React.Component {
     super();
     this.state = {
       bookList: [],
-      printType: "",
-      bookType: "",
+      printType: "all",
+      bookType: "none",
       query: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getBookList = this.getBookList.bind(this);
+    this.formatQueryParams = this.formatQueryParams.bind(this);
   }
 
   // sets the bookList to the dummy data when the app first loads
   componentDidMount() {
     this.setState({
       bookList: bookData
-    })
+    });
   }
 
   // helper function to format query params
-  formatQueryParams() {
-
+  formatQueryParams(params) {
+    console.log(params);
+    const queryItems = Object.keys(params).map(key => {
+      return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+    });
+    console.log(queryItems.join('&'));
+    return queryItems.join('&');
   }
 
   // fetch books from GoogleBooks API and set state
   getBookList() {
-    
+    console.log(this.state)
+    const endpoint = 'https://www.googleapis.com/books/v1/volumes';
+    const {printType, bookType, query} = this.state;
+    const params = (bookType === "none") 
+    ? {
+      q: query,
+      printType: printType,
+      key: 'AIzaSyB_9id_uBur33tk3nx3X-YleLLlxK90QY0'
+    } : {
+      q: query,
+      filter: bookType,
+      printType: printType,
+      key: 'AIzaSyB_9id_uBur33tk3nx3X-YleLLlxK90QY0'
+    }
+
+    const queryString = this.formatQueryParams(params);
+    const url = endpoint + '?' + queryString;
+     
+    fetch(url)
+      .then(response => {
+         if (!response.ok) {
+           throw new Error(response.statusText);
+         }
+         return response.json();
+      })
+      .then(data => {
+        console.log(data);
+        const newBookData = data.items.map(item => {
+          return {
+            item: item.volumeInfo.title,
+            author: item.volumeInfo.authors,
+            price: (item.saleInfo.saleability === "FREE" ? "Free"
+            : item.saleInfo.saleability === "NOT_FOR_SALE" ? "Not for sale"
+            : item.saleInfo.retailPrice.amount),
+            thumbnail: item.volumeInfo.imageLinks.thumbnail,
+            description: item.volumeInfo.description,
+            url: item.volumeInfo.infoLink
+          }
+        });
+        console.log(newBookData)
+        this.setState(prevState => {
+          return {
+            ...prevState,
+            bookList: newBookData
+          }
+        });
+      })
+      .catch(error => {
+        console.log("Something went wrong: " + error.message);
+        
+      });
+  }
+
+  // Reset state of bookList and call getBookList
+  // Can't seem to get the data to clear
+  handleSubmit(e) {
+    e.preventDefault();
+    this.getBookList();
   }
 
   // Will handle updating state for form
@@ -41,18 +104,6 @@ class App extends React.Component {
     this.setState({
       [name]: value,
     });
-  }
-
-  // Reset state of bookList and call getBookList
-  // Can't seem to get the data to clear
-  handleSubmit() {
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        bookList: []
-      }
-    });
-    this.getBookList();    
   }
 
   render() {
@@ -64,7 +115,7 @@ class App extends React.Component {
         thumbnail={book.thumbnail}
         description={book.description} 
         url={book.url}
-        key={index + book.title}
+        key={index}
       />
     );
 
