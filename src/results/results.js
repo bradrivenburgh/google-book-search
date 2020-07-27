@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Results() {
+function Results(props) {
   return(
-    <div>
-      
+    <div className="results">
+      {props.children}
     </div>
   );
 }
