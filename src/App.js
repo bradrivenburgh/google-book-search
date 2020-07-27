@@ -76,7 +76,7 @@ class App extends React.Component {
         } else {
           const newBookData = data.items.map(item => {
             return {
-              item: item.volumeInfo.item,
+              title: item.volumeInfo.title,
               author: item.volumeInfo.authors,
               price: (item.saleInfo.saleability === "FREE" ? "Free"
               : item.saleInfo.saleability === "NOT_FOR_SALE" ? "Not for sale"
