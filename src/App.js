@@ -28,17 +28,14 @@ class App extends React.Component {
 
   // helper function to format query params
   formatQueryParams(params) {
-    console.log(params);
     const queryItems = Object.keys(params).map(key => {
       return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
     });
-    console.log(queryItems.join('&'));
     return queryItems.join('&');
   }
 
   // fetch books from GoogleBooks API and set state
   getBookList() {
-    console.log(this.state)
     const endpoint = 'https://www.googleapis.com/books/v1/volumes';
     const {printType, bookType, query} = this.state;
     const params = (bookType === "none") 
@@ -63,16 +60,15 @@ class App extends React.Component {
          }
          return response.json();
       })
+      // Add error to state so it can be rendered
       .then(data => {
-        console.log(data);
-
         if (!data.totalItems) {
           this.setState(prevState => {
             return {
               ...prevState,
               error: "No books found"
             }
-          })  
+          });  
         } else {
           const newBookData = data.items.map(item => {
             return {
@@ -86,7 +82,7 @@ class App extends React.Component {
               url: item.volumeInfo.infoLink
             }
           });
-          console.log(newBookData)
+
           this.setState(prevState => {
             return {
               ...prevState,
@@ -97,7 +93,6 @@ class App extends React.Component {
         }        
       })
       .catch(error => {
-        console.log("Something went wrong: " + error.message);
         this.setState(prevState => {
           return {
             ...prevState,
@@ -138,6 +133,9 @@ class App extends React.Component {
           : "";
     return (
       <main>
+        <header>
+          <h1>Google Book Search</h1>
+        </header>
         <FormContainer
           query={this.state.query}
           bookType={this.state.bookType}
@@ -146,7 +144,7 @@ class App extends React.Component {
           handleSubmit={this.handleSubmit}
         />
         <Results>
-          {error}
+          {error} {/*This allows an error message to render when it exists*/}
           {bookList}
         </Results>
       </main>
