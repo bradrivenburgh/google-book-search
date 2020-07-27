@@ -2,20 +2,23 @@ import React from 'react';
 
 function FormComponent(props) {
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={props.handleSubmit} className="form">
       <label htmlFor="query">Search: </label>
       <input 
         name="query"
         type="text" 
         id="query"
+        className="query"
         value={props.query}
-        onChange={props.handleChange} 
+        required
+        onChange={props.handleChange}
       />
 
       <label htmlFor="printType">Print Type: </label>
       <select 
         name="printType"
         id="printType" 
+        className="print-type"
         value={props.printType}
         onChange={props.handleChange} 
       >
@@ -27,7 +30,8 @@ function FormComponent(props) {
       <label htmlFor="bookType">Book Type: </label>
       <select 
         name="bookType"
-        id="bookType" 
+        id="bookType"
+        className="book-type"
         value={props.bookType}
         onChange={props.handleChange} 
       >

@@ -65,34 +65,49 @@ class App extends React.Component {
       })
       .then(data => {
         console.log(data);
-        const newBookData = data.items.map(item => {
-          return {
-            item: item.volumeInfo.title,
-            author: item.volumeInfo.authors,
-            price: (item.saleInfo.saleability === "FREE" ? "Free"
-            : item.saleInfo.saleability === "NOT_FOR_SALE" ? "Not for sale"
-            : item.saleInfo.retailPrice.amount),
-            thumbnail: item.volumeInfo.imageLinks.thumbnail,
-            description: item.volumeInfo.description,
-            url: item.volumeInfo.infoLink
-          }
-        });
-        console.log(newBookData)
-        this.setState(prevState => {
-          return {
-            ...prevState,
-            bookList: newBookData
-          }
-        });
+
+        if (!data.totalItems) {
+          this.setState(prevState => {
+            return {
+              ...prevState,
+              error: "No books found"
+            }
+          })  
+        } else {
+          const newBookData = data.items.map(item => {
+            return {
+              item: item.volumeInfo.item,
+              author: item.volumeInfo.authors,
+              price: (item.saleInfo.saleability === "FREE" ? "Free"
+              : item.saleInfo.saleability === "NOT_FOR_SALE" ? "Not for sale"
+              : item.saleInfo.retailPrice.amount),
+              thumbnail: item.volumeInfo.imageLinks.thumbnail,
+              description: item.volumeInfo.description,
+              url: item.volumeInfo.infoLink
+            }
+          });
+          console.log(newBookData)
+          this.setState(prevState => {
+            return {
+              ...prevState,
+              bookList: newBookData,
+              error: null
+            }
+          });
+        }        
       })
       .catch(error => {
         console.log("Something went wrong: " + error.message);
-        
+        this.setState(prevState => {
+          return {
+            ...prevState,
+            error: error.message
+          }
+        })
       });
   }
 
-  // Reset state of bookList and call getBookList
-  // Can't seem to get the data to clear
+  // Reset prevent default form submission and call getBookList()
   handleSubmit(e) {
     e.preventDefault();
     this.getBookList();
@@ -118,7 +133,9 @@ class App extends React.Component {
         key={index}
       />
     );
-
+    const error = this.state.error
+          ? <div className="error">{this.state.error}</div>
+          : "";
     return (
       <main>
         <FormContainer
@@ -129,6 +146,7 @@ class App extends React.Component {
           handleSubmit={this.handleSubmit}
         />
         <Results>
+          {error}
           {bookList}
         </Results>
       </main>
