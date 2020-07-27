@@ -1,11 +1,31 @@
 import React from 'react';
+import FormContainer from './form/FormContainer';
+import Results from './results/results';
 
-function App() {
-  return (
-    <main className='App'>
-      {/* content goes here */}
-    </main>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      title: "",
+      author: "",
+      price: "",
+      thumbnail: "",
+      description: "",
+      url: "",
+      printType: "",
+      filter: "",
+      query: ""
+    }
+  }
+
+  render() {
+    return (
+      <main>
+        <FormContainer />
+        <Results />
+      </main>
+    );
+  }
 }
 
 export default App;
