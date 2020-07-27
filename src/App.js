@@ -133,7 +133,7 @@ class App extends React.Component {
           : "";
     return (
       <main>
-        <header>
+        <header className="app-header">
           <h1>Google Book Search</h1>
         </header>
         <FormContainer
