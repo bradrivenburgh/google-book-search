@@ -18,6 +18,7 @@ class App extends React.Component {
     this.getBookList = this.getBookList.bind(this);
   }
 
+  // sets the bookList to the dummy data when the app first loads
   componentDidMount() {
     this.setState({
       bookList: bookData
