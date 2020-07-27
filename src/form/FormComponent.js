@@ -1,25 +1,36 @@
 import React from 'react';
 
-function FormComponent() {
+function FormComponent(props) {
   return (
-    <div>
+    <form onSubmit={props.handleSubmit}>
       <label htmlFor="query">Search: </label>
       <input 
-        type="text" 
         name="query"
+        type="text" 
         id="query"
-        value="prop from state here" 
+        value={props.query}
+        onChange={props.handleChange} 
       />
 
       <label htmlFor="printType">Print Type: </label>
-      <select id="printType" value="props from state">
+      <select 
+        name="printType"
+        id="printType" 
+        value={props.printType}
+        onChange={props.handleChange} 
+      >
         <option value="all">All</option>
         <option value="books">Books</option>
         <option value="magazines">Magazines</option>
       </select>
 
       <label htmlFor="bookType">Book Type: </label>
-      <select id="bookType" value="props from state">
+      <select 
+        name="bookType"
+        id="bookType" 
+        value={props.bookType}
+        onChange={props.handleChange} 
+      >
         <option value="no-filter">No Filter</option>
         <option value="partial">Partial</option>
         <option value="full">Full</option>
@@ -27,7 +38,9 @@ function FormComponent() {
         <option value="paid-ebooks">Paid-ebooks</option>
         <option value="ebooks">Ebooks</option>
       </select>
-    </div>
+
+      <button>Submit</button>
+    </form>
   );
 }
 

@@ -1,20 +1,18 @@
 import React from 'react';
+import FormComponent from './FormComponent';
 
-class FormContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
-  
-  render() {
+function FormContainer(props) {
     return (
       <div>
-        
+        <FormComponent
+          query={props.query}
+          bookType={props.bookType}
+          printType={props.printType}
+          handleChange={props.handleChange}
+          handleSubmit={props.handleSubmit}
+        />
       </div>
     );
-  }
 }
 
 export default FormContainer;
