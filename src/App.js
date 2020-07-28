@@ -2,7 +2,6 @@ import React from "react";
 import bookData from './bookData'
 import FormContainer from "./form/FormContainer";
 import Results from "./results/results";
-import Book from "./results/book";
 
 class App extends React.Component {
   constructor() {
@@ -38,18 +37,18 @@ class App extends React.Component {
   getBookList() {
     const endpoint = 'https://www.googleapis.com/books/v1/volumes';
     const {printType, bookType, query} = this.state;
+    const key='AIzaSyB_9id_uBur33tk3nx3X-YleLLlxK90QY0';
     const params = (bookType === "none") 
     ? {
       q: query,
       printType: printType,
-      key: 'AIzaSyB_9id_uBur33tk3nx3X-YleLLlxK90QY0'
+      key
     } : {
       q: query,
       filter: bookType,
       printType: printType,
-      key: 'AIzaSyB_9id_uBur33tk3nx3X-YleLLlxK90QY0'
+      key
     }
-
     const queryString = this.formatQueryParams(params);
     const url = endpoint + '?' + queryString;
      
@@ -118,17 +117,7 @@ class App extends React.Component {
   }
 
   render() {
-    const bookList = this.state.bookList.map((book, index) =>
-      <Book
-        title={book.title}
-        author={book.author}
-        price={book.price}
-        thumbnail={book.thumbnail}
-        description={book.description} 
-        url={book.url}
-        key={index}
-      />
-    );
+    const books = this.state.bookList;
     const error = this.state.error
           ? <div className="error">{this.state.error}</div>
           : "";
@@ -137,6 +126,7 @@ class App extends React.Component {
         <header className="app-header">
           <h1>Google Book Search</h1>
         </header>
+
         <FormContainer
           query={this.state.query}
           bookType={this.state.bookType}
@@ -144,10 +134,11 @@ class App extends React.Component {
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
         />
-        <Results>
-          {error} {/*This allows an error message to render when it exists*/}
-          {bookList}
-        </Results>
+        
+        <Results 
+          bookData={books} 
+          error={error} 
+        />
       </main>
     );
   }
