@@ -1,6 +1,6 @@
 import React from "react";
 import bookData from './bookData';
-import {getBookList} from './Service';
+import {getBookList} from './Service'; // Contains fetch call
 import FormContainer from "./form/FormContainer";
 import Results from "./results/results";
 
