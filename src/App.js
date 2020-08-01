@@ -5,14 +5,16 @@ import FormContainer from "./form/FormContainer";
 import Results from "./results/results";
 
 function App() {
+  // State hooks
   const [bookList, setBookList] = useState([]);
   const [printType, setPrintType] = useState("all");
   const [bookType, setBookType] = useState("none");
   const [query, setQuery] = useState("");
   const [error, setError] = useState(null);
   
+  // Runs when component mounts
   useEffect(() => {
-    setBookList(prevBookList => bookData)
+    setBookList(bookData)
   }, [])
 
   // helper function to format query params

@@ -1,26 +1,29 @@
 import React from 'react';
 
-function Book(props) {
-  const price = typeof props.price === "number" 
-  ? "Price: $" + props.price 
-  : "Price: " + props.price
+function Book({title, author, price, 
+  thumbnail, description, url}) {
+  
+    const displayPrice = typeof price === "number" 
+  ? "Price: $" + price 
+  : "Price: " + price
+
   return (
     <>
       <div className="book-item">
         <div className="book-img">
-          <a href={props.url}>
+          <a href={url}>
             <img 
-              src={props.thumbnail} 
+              src={thumbnail} 
               alt="book cover" 
             />
           </a>
         </div>
 
         <div className="book-info">
-          <h2>{props.title}</h2>
-          <h3>Author: {props.author}</h3>
-          <h3>{price}</h3>
-          <p>{props.description}</p>
+          <h2>{title}</h2>
+          <h3>Author: {author}</h3>
+          <h3>{displayPrice}</h3>
+          <p>{description}</p>
         </div>
       </div>
       <hr />

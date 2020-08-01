@@ -1,8 +1,8 @@
 import React from 'react';
 
-function FormComponent(props) {
+function FormComponent({query, bookType, printType, handleChange, handleSubmit}) {
   return (
-    <form onSubmit={props.handleSubmit} className="search-form">
+    <form onSubmit={handleSubmit} className="search-form">
 
       <div className="search-wrapper">
         <label htmlFor="query">Search: </label>
@@ -11,9 +11,9 @@ function FormComponent(props) {
           type="text" 
           id="query"
           className="query"
-          value={props.query}
+          value={query}
           required
-          onChange={props.handleChange}
+          onChange={handleChange}
         />
         <button>Submit</button>
       </div>
@@ -24,8 +24,8 @@ function FormComponent(props) {
           <select 
             name="printType"
             id="printType" 
-            value={props.printType}
-            onChange={props.handleChange} 
+            value={printType}
+            onChange={handleChange} 
           >
             <option value="all">All</option>
             <option value="books">Books</option>
@@ -37,8 +37,8 @@ function FormComponent(props) {
           <select 
             name="bookType"
             id="bookType"
-            value={props.bookType}
-            onChange={props.handleChange} 
+            value={bookType}
+            onChange={handleChange} 
           >
             <option value="none">No Filter</option>
             <option value="partial">Partial</option>
