@@ -55,6 +55,10 @@ code {
   margin-right: 1em;
 }
 
+.book-info {
+  width: 100%;
+}
+
 .error {
   font-size: 2em;
   font-weight: bold;
