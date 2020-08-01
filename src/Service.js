@@ -1,7 +1,7 @@
   // fetch books from GoogleBooks API and set state
-  export function getBookList() {
+  export function getBookList(printType, bookType, 
+    query, setBookList, setError, formatQueryParams) {
     const endpoint = 'https://www.googleapis.com/books/v1/volumes';
-    const {printType, bookType, query} = this.state;
     const key='AIzaSyB_9id_uBur33tk3nx3X-YleLLlxK90QY0';
     const params = (bookType === "none") 
     ? {
@@ -14,7 +14,7 @@
       printType: printType,
       key
     }
-    const queryString = this.formatQueryParams(params);
+    const queryString = formatQueryParams(params);
     const url = endpoint + '?' + queryString;
      
     fetch(url)
@@ -27,12 +27,7 @@
       // Add error to state so it can be rendered
       .then(data => {
         if (!data.totalItems) {
-          this.setState(prevState => {
-            return {
-              ...prevState,
-              error: "No books found"
-            }
-          });  
+          setError(prevError => "No books found");
         } else {
           const newBookData = data.items.map(item => {
             return {
@@ -47,21 +42,11 @@
             }
           });
 
-          this.setState(prevState => {
-            return {
-              ...prevState,
-              bookList: newBookData,
-              error: null
-            }
-          });
+          setBookList(prevBookList => newBookData);
+          setError(prevError => null);
         }        
       })
       .catch(error => {
-        this.setState(prevState => {
-          return {
-            ...prevState,
-            error: error.message
-          }
-        })
+        setError(prevError => error.message);
       });
   }
