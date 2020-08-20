@@ -3,7 +3,7 @@
     query, setBookList, setError, formatQueryParams) {
     
     const endpoint = 'https://www.googleapis.com/books/v1/volumes';
-    const key='AIzaSyB_9id_uBur33tk3nx3X-YleLLlxK90QY0';
+    const key=process.env.REACT_APP_API_KEY;
     const params = (bookType === "none") 
     ? {
       q: query,
